@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\ai.png" />
+    <Content Remove="wwwroot\Images\air_quality.png" />
+    <Content Remove="wwwroot\Images\average.png" />
+    <Content Remove="wwwroot\Images\forecast.png" />
+    <Content Remove="wwwroot\Images\leaf.png" />
+    <Content Remove="wwwroot\Images\map.png" />
+    <Content Remove="wwwroot\Images\map_pin.png" />
+    <Content Remove="wwwroot\Images\pollution.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\ai.png" />
+    <None Include="wwwroot\Images\air_quality.png" />
+    <None Include="wwwroot\Images\average.png" />
+    <None Include="wwwroot\Images\forecast.png" />
+    <None Include="wwwroot\Images\leaf.png" />
+    <None Include="wwwroot\Images\map.png" />
+    <None Include="wwwroot\Images\map_pin.png" />
+    <None Include="wwwroot\Images\pollution.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
+    <PackageReference Include="Azure.Identity" Version="1.14.0" />
+	<PackageReference Include="Syncfusion.Blazor" Version="29.2.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Resources\current_data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Resources\prediction_data.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
