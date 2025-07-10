@@ -1,6 +1,7 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
@@ -248,7 +249,7 @@
 					<ContentTemplate>
 						@if (isLayoutRender)
 						{
-							<SfChart ID="MainSplineChart" @ref="chart1">
+							<SfChart ID="MainSplineChart" @ref="chart1" Theme="Theme.Bootstrap5">
 								<SfSpinner @bind-Visible="@SpinnerVisibility" Size="50"></SfSpinner>
 								<ChartArea>
 									<ChartAreaBorder Width="0"></ChartAreaBorder>
@@ -305,7 +306,7 @@
 					<ContentTemplate>
 						@if (IsInitialRender)
 						{
-							<SfMaps ID="MapsOne" @ref="MapsLayout" Height="100%" Background="#91B9FB">
+							<SfMaps ID="MapsOne" @ref="MapsLayout" Height="100%" Background="#91B9FB" Theme="Theme.Bootstrap5">
 								<MapsAreaSettings Background="#91B9FB"/>
 								<MapsLayers>
 									<MapsLayer ShapeData='new {dataOptions ="https://cdn.syncfusion.com/maps/map-data/world-map.json"}' ShapePropertyPath='new string[] {"name"}' TValue="string">
