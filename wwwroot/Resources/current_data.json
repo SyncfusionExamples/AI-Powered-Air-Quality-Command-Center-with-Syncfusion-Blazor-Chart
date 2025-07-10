@@ -1,0 +1,250 @@
+[
+  {
+    "Date": "2025-02-23",
+    "PollutionIndex": 42,
+    "AirQualityStatus": "Good",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 80
+  },
+  {
+    "Date": "2025-02-24",
+    "PollutionIndex": 55,
+    "AirQualityStatus": "Satisfactory",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 78
+  },
+  {
+    "Date": "2025-02-25",
+    "PollutionIndex": 48,
+    "AirQualityStatus": "Good",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 79
+  },
+  {
+    "Date": "2025-02-26",
+    "PollutionIndex": 63,
+    "AirQualityStatus": "Satisfactory",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 77
+  },
+  {
+    "Date": "2025-02-27",
+    "PollutionIndex": 78,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 76
+  },
+  {
+    "Date": "2025-02-28",
+    "PollutionIndex": 85,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 75
+  },
+  {
+    "Date": "2025-03-01",
+    "PollutionIndex": 60,
+    "AirQualityStatus": "Satisfactory",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 77
+  },
+  {
+    "Date": "2025-03-02",
+    "PollutionIndex": 73,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 76
+  },
+  {
+    "Date": "2025-03-03",
+    "PollutionIndex": 67,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 78
+  },
+  {
+    "Date": "2025-03-04",
+    "PollutionIndex": 82,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 76
+  },
+  {
+    "Date": "2025-03-05",
+    "PollutionIndex": 90,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 75
+  },
+  {
+    "Date": "2025-03-06",
+    "PollutionIndex": 52,
+    "AirQualityStatus": "Satisfactory",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 79
+  },
+  {
+    "Date": "2025-03-07",
+    "PollutionIndex": 67,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 78
+  },
+  {
+    "Date": "2025-03-08",
+    "PollutionIndex": 59,
+    "AirQualityStatus": "Satisfactory",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 80
+  },
+  {
+    "Date": "2025-03-09",
+    "PollutionIndex": 45,
+    "AirQualityStatus": "Good",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 80
+  },
+  {
+    "Date": "2025-03-10",
+    "PollutionIndex": 88,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 76
+  },
+  {
+    "Date": "2025-03-11",
+    "PollutionIndex": 71,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 77
+  },
+  {
+    "Date": "2025-03-12",
+    "PollutionIndex": 65,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 78
+  },
+  {
+    "Date": "2025-03-13",
+    "PollutionIndex": 81,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 77
+  },
+  {
+    "Date": "2025-03-14",
+    "PollutionIndex": 95,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 74
+  },
+  {
+    "Date": "2025-03-15",
+    "PollutionIndex": 106,
+    "AirQualityStatus": "Poor",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 72
+  },
+  {
+    "Date": "2025-03-16",
+    "PollutionIndex": 92,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 73
+  },
+  {
+    "Date": "2025-03-17",
+    "PollutionIndex": 88,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 74
+  },
+  {
+    "Date": "2025-03-18",
+    "PollutionIndex": 102,
+    "AirQualityStatus": "Poor",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 73
+  },
+  {
+    "Date": "2025-03-19",
+    "PollutionIndex": 110,
+    "AirQualityStatus": "Poor",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 72
+  },
+  {
+    "Date": "2025-03-20",
+    "PollutionIndex": 115,
+    "AirQualityStatus": "Poor",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 71
+  },
+  {
+    "Date": "2025-03-21",
+    "PollutionIndex": 120,
+    "AirQualityStatus": "Poor",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 70
+  },
+  {
+    "Date": "2025-03-22",
+    "PollutionIndex": 105,
+    "AirQualityStatus": "Poor",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 71
+  },
+  {
+    "Date": "2025-03-23",
+    "PollutionIndex": 130,
+    "AirQualityStatus": "Very Poor",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 68
+  },
+  {
+    "Date": "2025-03-24",
+    "PollutionIndex": 115,
+    "AirQualityStatus": "Poor",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 72
+  },
+  {
+    "Date": "2025-03-25",
+    "PollutionIndex": 98,
+    "AirQualityStatus": "Moderate",
+    "Latitude": 40.7128,
+    "Longitude": -74.0060,
+    "AIPredictionAccuracy": 74
+  }
+]
