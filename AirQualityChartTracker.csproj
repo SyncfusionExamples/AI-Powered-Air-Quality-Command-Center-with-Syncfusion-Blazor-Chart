@@ -7,17 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\Images\ai.png" />
-    <Content Remove="wwwroot\Images\air_quality.png" />
-    <Content Remove="wwwroot\Images\average.png" />
-    <Content Remove="wwwroot\Images\forecast.png" />
-    <Content Remove="wwwroot\Images\leaf.png" />
-    <Content Remove="wwwroot\Images\map.png" />
-    <Content Remove="wwwroot\Images\map_pin.png" />
-    <Content Remove="wwwroot\Images\pollution.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\Images\ai.png" />
     <None Include="wwwroot\Images\air_quality.png" />
     <None Include="wwwroot\Images\average.png" />
