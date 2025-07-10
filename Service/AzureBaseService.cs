@@ -12,18 +12,17 @@ public class AIAirQualityService
     private readonly string _endpoint;
     private readonly string _apiKey;
     private readonly string _deployment;
-    // Add to class constructor
     private readonly ILogger<AIAirQualityService> _logger;
     #endregion
 
     #region Constructor
-    public AIAirQualityService(HttpClient httpClient, IConfiguration configuration, ILogger<AIAirQualityService> logger)  // Add logger parameter
+    public AIAirQualityService(HttpClient httpClient, IConfiguration configuration, ILogger<AIAirQualityService> logger)
     {
         _httpClient = httpClient;
         _endpoint = configuration["AzureOpenAI:Endpoint"];
         _apiKey = configuration["AzureOpenAI:ApiKey"];
         _deployment = configuration["AzureOpenAI:DeploymentId"];
-        _logger = logger;  // Initialize logger
+        _logger = logger;
     }
 
     #endregion
@@ -116,7 +115,9 @@ public class AIAirQualityService
             "Using the following historical dataset, predict the Pollution Index for the next 30 days:\n\n" +
             $"{System.Text.Json.JsonSerializer.Serialize(historicalData)}\n\n" +
             "Use the following structure for each entry: " +
-            "[ { \"Date\": \"YYYY-MM-DD\", \"PollutionIndex\": number } ]. " +
+            "[ { \"Date\": \"YYYY-MM-DD\", \"PollutionIndex\": number, " +
+            "\"AirQualityStatus\": \"Good | Satisfactory | Moderate | Poor | Very Poor | Severe\", " +
+            "\"Latitude\": number, \"Longitude\": number, \"AIPredictionAccuracy\": number } ]. " +
             "Output ONLY valid JSON without any additional explanations.";
 
             string response = await GetResponseFromOpenAI(userMessage);
@@ -166,20 +167,14 @@ public class JsonExtractor
     {
         try
         {
-            // Remove the markdown-like delimiters from the start and end
             response = response.TrimStart(new[] { '`', 'j', 's', 'o', 'n', '\n' });
             response = response.TrimStart(new[] { '`', 'j', 's', 'o', 'n', '\n' });
             response = response.TrimEnd(new[] { '`', '\n' });
-
-            // Regex pattern to match JSON array structure
             Match match = Regex.Match(response, @"\[.*?\]", RegexOptions.Singleline);
-            //Match match = Regex.Match(response, pattern, RegexOptions.Multiline);
 
             if (match.Success)
             {
-                string json = match.Groups[0].Value.Trim(); // Get the JSON content
-
-                // Remove trailing commas that break deserialization
+                string json = match.Groups[0].Value.Trim();
                 json = Regex.Replace(json, @",(\s*})", "$1");
 
                 Debug.WriteLine("Successfully extracted JSON");

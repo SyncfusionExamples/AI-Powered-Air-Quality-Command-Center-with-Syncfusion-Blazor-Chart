@@ -27,23 +27,22 @@
 		align-items: center;
 		width: 100%;
 		gap: 15px;
-		min-height: 70px; /* Fixed header height */
+		min-height: 70px;
 		height: 70px;
 	}
 
-	/* Left column group */
+	
 	.header-group {
 		display: flex;
 		align-items: center;
 		gap: 15px;
-		flex: 1; /* Allow it to grow */
-		min-width: 0; /* Critical for truncation to work */
+		flex: 1;
+		min-width: 0;
 		overflow: hidden;
-		min-height: 70px; /* Fixed header height */
+		min-height: 70px;
 		height: 70px;
 	}
 
-	/* Right column container */
 	#input-container {
 		display: flex;
 		justify-content: flex-end;
@@ -51,13 +50,12 @@
 		gap: 10px;
 	}
 
-	/* Responsive adjustments */
 	@@media (max-width: 300px) {
 		#header-panel {
 			flex-wrap: wrap;
-			min-height: 70px; /* Fixed header height */
+			min-height: 70px;
 			height: 70px;
-	    }
+		}
 
 		.header-group {
 			justify-content: center;
@@ -202,7 +200,7 @@
 	}
 
 	.e-dashboardlayout.e-control .e-panel {
-		border-radius: 12px !important;
+	border-radius: 12px !important;
 	}
 
 	.e-dashboardlayout.e-control.e-responsive {
@@ -222,7 +220,6 @@
 
 <div id="main-card">
 	<div id="header-panel">
-		<!-- Left Column -->
 		<div class="header-group">
 			<div class="header-img">
 				<img src="./images/leaf.png" style="height:60px;width:60px;" />
@@ -233,7 +230,6 @@
 			</div>
 		</div>
 
-		<!-- Right Column -->
 		<div id="input-container">
 			<div class="input-wrapper">
 				<SfTextBox @ref="countryTextBox" Placeholder="Location" CssClass="location-input" Width="200px" Value="@SearchCountry" @oninput="HandleInput" @onkeydown="HandleKeyDown" />
@@ -305,7 +301,6 @@
 					</ContentTemplate>
 				</DashboardLayoutPanel>
 
-				<!-- Map Panel -->
 				<DashboardLayoutPanel SizeX="4" SizeY="3" Row="3" Col="5" Id="maps-panel">
 					<ContentTemplate>
 						@if (IsInitialRender)
@@ -320,12 +315,14 @@
 										<MapsMarkerSettings>
 											<MapsMarker Visible="true" DataSource="@MapMarkers" TValue="AirQualityInfo" AnimationDuration="0" Width="30" Height="30">
 												<MarkerTemplate>
-													<div style="text-align: center;">
-														<img src="./images/map_pin.png" style="height: 30px; width: 30px;" alt="Marker Image" />
-														<div class="text" style="margin-top: 5px; font-size: 13px;">
-															@CountryName
+													@if (ShowMarker) {
+														<div style="text-align: center;">
+															<img src="./images/map_pin.png" style="height: 30px; width: 30px;" alt="Marker Image" />
+															<div class="text" style="margin-top: 5px; font-size: 13px;">
+																@CountryName
+															</div>
 														</div>
-													</div>
+													}
 												</MarkerTemplate>
 											</MapsMarker>
 										</MapsMarkerSettings>
@@ -336,7 +333,6 @@
 					</ContentTemplate>
 				</DashboardLayoutPanel>
 
-				<!-- Stats Panel -->
 				<DashboardLayoutPanel SizeX="2" SizeY="1" Row="1" Col="6" Id="first-card-panel">
 					<ContentTemplate>
 						<SfCard ID="FirstCard">
@@ -382,6 +378,7 @@
 	private Timer _resizeTimer;
 	public bool IsInitialRender { get; set; }
 	private bool SpinnerVisibility { get; set; } = true;
+	private bool ShowMarker { get; set; } = true;
 	private string _searchCountry = "New York";
 	private static System.Timers.Timer timer;
 	SfChart chart1;
@@ -404,9 +401,7 @@
 	public async void Created(Object args)
 	{
 		await Task.Yield();
-		// for maps
 		IsInitialRender = true;
-		// for chart
 		isLayoutRender = true;
 	}
 
@@ -446,11 +441,12 @@
 			AIPredictionAccuracy = "Loading...";
 			AvgPollution7Days = "Loading...";
 			LatestAirQualityStatus = "Loading...";
-			await FetchAirQualityData(SearchCountry); // Use the entered country name
+			await FetchAirQualityData(SearchCountry);
 			if (Data != null && sfDashboardLayout != null)
 			{
+				ShowMarker = true;
 				SpinnerVisibility = false;	
-				await sfDashboardLayout.RefreshAsync(); // Refresh UI after fetching data
+				await sfDashboardLayout.RefreshAsync();
 			}
 		}
 	}
@@ -460,17 +456,25 @@
 		if (!string.IsNullOrWhiteSpace(SearchCountry))
 		{
 			SpinnerVisibility = true;
+			MapMarkers?.Clear();
+
+			CurrentPollutionIndex = "Loading...";
+			AIPredictionAccuracy = "Loading...";
+			AvgPollution7Days = "Loading...";
+			LatestAirQualityStatus = "Loading...";
 			await PredictForecastData();
 			if (ForeCastData != null && sfDashboardLayout != null)
 			{
+				ShowMarker = true;
 				SpinnerVisibility = false;
-				await sfDashboardLayout.RefreshAsync(); // Refresh UI if forecast data is ready
+				await sfDashboardLayout.RefreshAsync();
 			}
 		}
 	}
 
 	private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
 	{
+		ShowMarker = false;
 		SearchCountry = e.Value?.ToString();
 	}
 }

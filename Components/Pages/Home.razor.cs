@@ -151,7 +151,7 @@ namespace AirQualityChartTracker.Components.Pages
 
             CountryName = countryName;
 
-            UpdateCalculatedProperties();
+            UpdateCalculatedProperties(Data);
 
         }
 
@@ -166,26 +166,38 @@ namespace AirQualityChartTracker.Components.Pages
                 })
                 .ToList();
 
+            var singleMarker = historicalData.Select(d => new AirQualityInfo
+            {
+                Latitude = d.Latitude,
+                Longitude = d.Longitude
+            }).FirstOrDefault();
+
+            if (singleMarker != null)
+            {
+                MapMarkers = new ObservableCollection<AirQualityInfo> { singleMarker };
+            }
+
             if (historicalData != null)
             {
                 var forecastedData = await AIService.PredictNextMonthForecast(historicalData);
 
                 ForeCastData = new ObservableCollection<AirQualityInfo>(forecastedData);
+                UpdateCalculatedProperties(ForeCastData);
             }
         }
 
-        private void UpdateCalculatedProperties()
+        private void UpdateCalculatedProperties(ObservableCollection<AirQualityInfo> data)
         {
 
-            var latestData = Data?.OrderByDescending(d => d.Date).FirstOrDefault();
+            var latestData = data?.OrderByDescending(d => d.Date).FirstOrDefault();
             CurrentPollutionIndex = latestData != null ? latestData.PollutionIndex.ToString("F0") : "0";
 
-            var last7Days = Data?.OrderByDescending(d => d.Date).Take(7).ToList();
+            var last7Days = data?.OrderByDescending(d => d.Date).Take(7).ToList();
             AvgPollution7Days = (last7Days != null && last7Days.Any())
                 ? last7Days.Average(d => d.PollutionIndex).ToString("F2")
                 : "0.00";
 
-            AIPredictionAccuracy = (Data != null && Data.Any())
+            AIPredictionAccuracy = (data != null && data.Any())
                 ? Data.Average(d => d.AIPredictionAccuracy).ToString("F2")
                 : "0.00";
 
