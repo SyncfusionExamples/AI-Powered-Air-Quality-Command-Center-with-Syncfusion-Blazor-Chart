@@ -1,4 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using Syncfusion.Blazor.Charts;
+using Syncfusion.Blazor.Inputs;
+using Syncfusion.Blazor.Layouts;
+using Syncfusion.Blazor.Maps;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -16,6 +20,19 @@ namespace AirQualityChartTracker.Components.Pages
         private string avgPollution7Days = "Loading...";
         private string aiPredictionAccuracy = "Loading...";
         private string latestAirQualityStatus = "Loading...";
+        private Timer _resizeTimer;
+        public bool IsInitialRender { get; set; }
+        private bool SpinnerVisibility { get; set; } = true;
+        private bool MapSpinnerVisibility { get; set; } = true;
+        private bool ShowMarker { get; set; } = true;
+        private string _searchCountry = "New York";
+        private static System.Timers.Timer timer;
+        SfChart chart1;
+        SfDashboardLayout sfDashboardLayout;
+        SfMaps MapsLayout;
+        private bool isLayoutRender;
+
+        private SfTextBox countryTextBox;
 
         #endregion
 
@@ -112,6 +129,15 @@ namespace AirQualityChartTracker.Components.Pages
                 }
             }
         }
+        public string SearchCountry
+        {
+            get => _searchCountry;
+            set
+            {
+                _searchCountry = value;
+                CountryName = value;
+            }
+        }
 
 
         #endregion
@@ -123,10 +149,10 @@ namespace AirQualityChartTracker.Components.Pages
             if (firstRender)
             {
                 await FetchAirQualityData("New York");
-                SpinnerVisibility = true;
+                SpinnerVisibility = MapSpinnerVisibility = true;
                 if (Data != null && sfDashboardLayout != null)
                 {
-                    SpinnerVisibility = false;
+                    SpinnerVisibility = MapSpinnerVisibility = false;
                     await sfDashboardLayout.RefreshAsync();
                 }
             }
@@ -166,17 +192,6 @@ namespace AirQualityChartTracker.Components.Pages
                 })
                 .ToList();
 
-            var singleMarker = historicalData.Select(d => new AirQualityInfo
-            {
-                Latitude = d.Latitude,
-                Longitude = d.Longitude
-            }).FirstOrDefault();
-
-            if (singleMarker != null)
-            {
-                MapMarkers = new ObservableCollection<AirQualityInfo> { singleMarker };
-            }
-
             if (historicalData != null)
             {
                 var forecastedData = await AIService.PredictNextMonthForecast(historicalData);
@@ -202,6 +217,82 @@ namespace AirQualityChartTracker.Components.Pages
                 : "0.00";
 
             LatestAirQualityStatus = latestData?.AirQualityStatus ?? "Unknown";
+        }
+        public async void Created(Object args)
+        {
+            await Task.Yield();
+            IsInitialRender = true;
+            isLayoutRender = true;
+        }
+
+        public async Task ResizingWindow(ResizeArgs args)
+        {
+            if (_resizeTimer != null)
+            {
+                _resizeTimer.Dispose();
+            }
+            _resizeTimer = new Timer(async _ =>
+            {
+                await InvokeAsync(() =>
+                {
+                    RefreshComponents();
+                });
+            }, null, 500, Timeout.Infinite);
+        }
+
+        private async Task RefreshComponents()
+        {
+            await Task.Yield();
+            MapsLayout.Refresh();
+        }
+
+
+        private async Task TextChanged(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(SearchCountry))
+            {
+                ShowMarker = false;
+                SpinnerVisibility = MapSpinnerVisibility = true;
+                Data = new ObservableCollection<AirQualityInfo>();
+                ForeCastData = new ObservableCollection<AirQualityInfo>();
+                MapMarkers?.Clear();
+                SearchCountry = e.Value?.ToString();
+
+                // Show loading states
+                CurrentPollutionIndex = "Loading...";
+                AIPredictionAccuracy = "Loading...";
+                AvgPollution7Days = "Loading...";
+                LatestAirQualityStatus = "Loading...";
+                await FetchAirQualityData(SearchCountry);
+                if (Data != null && sfDashboardLayout != null)
+                {
+                    ShowMarker = true;
+                    SpinnerVisibility = MapSpinnerVisibility = false;
+                    await sfDashboardLayout.RefreshAsync();
+                    await chart1.RefreshAsync();
+                }
+            }
+        }
+
+        private async void ForecastButton_Click()
+        {
+            if (!string.IsNullOrWhiteSpace(SearchCountry))
+            {
+                SpinnerVisibility = true;
+
+                CurrentPollutionIndex = "Loading...";
+                AIPredictionAccuracy = "Loading...";
+                AvgPollution7Days = "Loading...";
+                LatestAirQualityStatus = "Loading...";
+                await PredictForecastData();
+                if (ForeCastData != null && sfDashboardLayout != null)
+                {
+                    ShowMarker = true;
+                    SpinnerVisibility = false;
+                    await sfDashboardLayout.RefreshAsync();
+                    await chart1.RefreshAsync();
+                }
+            }
         }
 
         #endregion

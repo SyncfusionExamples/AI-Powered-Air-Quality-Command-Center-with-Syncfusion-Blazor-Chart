@@ -49,13 +49,13 @@ public class AIAirQualityService
         var response = await _httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {
-            var responseJson = await response.Content.ReadAsStringAsync();
+            string? responseJson = await response.Content.ReadAsStringAsync();
             using var doc = JsonDocument.Parse(responseJson);
             return doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
         }
         else
         {
-            var errorContent = await response.Content.ReadAsStringAsync();
+            string? errorContent = await response.Content.ReadAsStringAsync();
             return $"Error: {response.StatusCode} - {errorContent}";
         }
     }
@@ -74,31 +74,16 @@ public class AIAirQualityService
             "[ { \"Date\": \"YYYY-MM-DD\", \"PollutionIndex\": number, " +
             "\"AirQualityStatus\": \"Good | Satisfactory | Moderate | Poor | Very Poor | Severe\", " +
             "\"Latitude\": number, \"Longitude\": number, \"AIPredictionAccuracy\": number } ]. " +
-            "Base the predictions on historical data trends, ensuring the dataset includes fluctuations and avoids a uniform increase or decrease. " +
+            "Base the predictions on historical data trends, ensuring the dataset includes fluctuations and avoids a uniform increase or decrease." +
+            $"The provided latitude and longitude values must represent the {location}'s geographical coordinates." +
             "Output ONLY valid JSON without any additional explanations.";
 
-            string response = await GetResponseFromOpenAI(userMessage);
-            string extractedJson = JsonExtractor.ExtractJson(response);
-            if (!string.IsNullOrEmpty(extractedJson))
-            {
-                var options = new System.Text.Json.JsonSerializerOptions
-                {
-                    NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
-                    PropertyNameCaseInsensitive = true
-                };
-
-                return System.Text.Json.JsonSerializer.Deserialize<List<AirQualityInfo>>(extractedJson, options)
-                    ?? new List<AirQualityInfo>();
-            }
-            else
-            {
-                return new List<AirQualityInfo>();
-            }
+            return await HandleResponseFromAI(userMessage);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get air quality trends");
-            return GetCurrentDataFromEmbeddedJson();
+            return GetFallbackData("wwwroot/Resources/current_data.json");
         }
     }
 
@@ -120,42 +105,39 @@ public class AIAirQualityService
             "\"Latitude\": number, \"Longitude\": number, \"AIPredictionAccuracy\": number } ]. " +
             "Output ONLY valid JSON without any additional explanations.";
 
-            string response = await GetResponseFromOpenAI(userMessage);
-            string extractedJson = JsonExtractor.ExtractJson(response);
-            if (!string.IsNullOrEmpty(extractedJson))
-            {
-                var options = new System.Text.Json.JsonSerializerOptions
-                {
-                    NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
-                    PropertyNameCaseInsensitive = true
-                };
-
-                return System.Text.Json.JsonSerializer.Deserialize<List<AirQualityInfo>>(extractedJson, options)
-                    ?? new List<AirQualityInfo>();
-            }
-            else
-            {
-                return new List<AirQualityInfo>();
-            }
+            return await HandleResponseFromAI(userMessage);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Forecast generation failed");
-            return GetPredictionFromEmbeddedJson();
+            return GetFallbackData("wwwroot/Resources/prediction_data.json");
         }
     }
 
-    private List<AirQualityInfo> GetCurrentDataFromEmbeddedJson()
+    private async Task<List<AirQualityInfo>> HandleResponseFromAI(string prompt)
     {
-        var json = File.ReadAllTextAsync("wwwroot/Resources/current_data.json");
-        return JsonConvert.DeserializeObject<List<AirQualityInfo>>(File.ReadAllText("wwwroot//Resources/current_data.json")) ?? new List<AirQualityInfo>();
+        string response = await GetResponseFromOpenAI(prompt);
+        string extractedJson = JsonExtractor.ExtractJson(response);
+        if (!string.IsNullOrEmpty(extractedJson))
+        {
+            var options = new System.Text.Json.JsonSerializerOptions
+            {
+                NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
+                PropertyNameCaseInsensitive = true
+            };
 
+            return System.Text.Json.JsonSerializer.Deserialize<List<AirQualityInfo>>(extractedJson, options)
+                ?? new List<AirQualityInfo>();
+        }
+        else
+        {
+            return new List<AirQualityInfo>();
+        }
     }
 
-    private List<AirQualityInfo> GetPredictionFromEmbeddedJson()
+    private List<AirQualityInfo> GetFallbackData(string filePath)
     {
-        var json = File.ReadAllTextAsync("wwwroot/Resources/prediction_data.json");
-        return JsonConvert.DeserializeObject<List<AirQualityInfo>>(File.ReadAllText("wwwroot//Resources/prediction_data.json")) ?? new List<AirQualityInfo>();
+        return JsonConvert.DeserializeObject<List<AirQualityInfo>>(File.ReadAllText(filePath)) ?? new List<AirQualityInfo>();
     }
 
     #endregion

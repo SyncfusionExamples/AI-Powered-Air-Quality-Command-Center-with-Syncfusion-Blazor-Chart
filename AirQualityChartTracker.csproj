@@ -7,20 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Images\ai.png" />
-    <None Include="wwwroot\Images\air_quality.png" />
-    <None Include="wwwroot\Images\average.png" />
-    <None Include="wwwroot\Images\forecast.png" />
-    <None Include="wwwroot\Images\leaf.png" />
-    <None Include="wwwroot\Images\map.png" />
-    <None Include="wwwroot\Images\map_pin.png" />
-    <None Include="wwwroot\Images\pollution.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
     <PackageReference Include="Azure.Identity" Version="1.14.0" />
-	<PackageReference Include="Syncfusion.Blazor" Version="29.2.11" />
+	<PackageReference Include="Syncfusion.Blazor" Version="30.2.7" />
   </ItemGroup>
 
   <ItemGroup>
